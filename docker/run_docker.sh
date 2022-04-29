@@ -8,15 +8,12 @@ xauth nlist $DISPLAY | sed -e 's/^..../ffff/' | xauth -f $XAUTH nmerge -
 ########### UPDATE PATHS BELOW BEFORE RUNNING #####################
 ###################################################################
 
-# Provide full path to PIE and JAAD datasets (videos should be 
-# first converted to images)
-
 # Provide full path to pedgraph folder
-CODE_FOLDER=/home/rodrigonano/Documents/public/ 
+CODE_FOLDER=/path/to/data/   # edit this line!!
 
-IMAGE_NAME=pytorch_18
-TAG=pedgraph
-CONTAINER_NAME=pytorch
+IMAGE_NAME=pytorch_18  # edit this according to the pytorch version in the docker image
+TAG=pedgraph           # edit this according to the tag in docker image
+CONTAINER_NAME=pytorch # edit the name of the docker container
 
 WORKING_DIR=$HOME/ped/
 
