@@ -9,12 +9,8 @@ from torch.utils.data import DataLoader
 import argparse
 import numpy as np
 from tqdm import tqdm, tgrange
-#import matplotlib
-#matplotlib.use('WebAgg')
-#import matplotlib.pyplot as plt
 from scipy.special import softmax
 from scipy.special import expit
-# from thop import profile
 import pandas as pd
 import os
 # from ptflops import get_model_complexity_info
@@ -164,7 +160,6 @@ def main(args):
 
             ys[i] = int(y.item())
             pedgraph_pred_all[i] = pred.detach().cpu().numpy()
-            # pedgraph_pred[i] =  pred.detach().cpu().numpy()
             
             if args.argmax:
                 prov = pred[:, pred.argmax(1)].cpu().numpy()
@@ -174,9 +169,6 @@ def main(args):
                 pred[:, 0] = min(1, pred[:, 0] + pred[:, 2])
                 pred[:, 1] = max(0, pred[:, 1] - pred[:, 2])
                 pedgraph_pred[i] = pred[:, 1].item() if pred.argmax(1) == 1 else 1 - pred[:, 0].item()
-
-
-            # pedgraph_pred[i] = pred[:, 1].detach().cpu().numpy()
 
             
             pcpa_pred[i] = models_data[0].cpu().numpy()
