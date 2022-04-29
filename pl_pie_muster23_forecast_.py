@@ -69,23 +69,19 @@ class LitPedGraph(pl.LightningModule):
         
         if np.random.randint(10) >= 5 and self.time_crop:
             crop_size = np.random.randint(2, 21)
-            # crop_size = np.random.randint(2, 21)
             x = x[:, :, -crop_size:]
 
         logits = self(x, f, v)
         w = None if self.balance else self.tr_weight
-        # loss = F.cross_entropy(logits, y.view(-1).long(), weight=w)
         
         y_onehot = torch.FloatTensor(y.shape[0], 3).to(y.device).zero_()
         y_onehot.scatter_(1, y.long(), 1)
         loss = F.binary_cross_entropy_with_logits(logits, y_onehot, weight=w)
 
         preds = logits.softmax(1).argmax(1)
-        # acc = accuracy(preds.view(-1).long(), y.view(-1).long())
         acc = balanced_accuracy_score(preds.view(-1).long().cpu(), y.view(-1).long().cpu())
         self.log('train_loss', loss, prog_bar=True)
         self.log('train_acc', acc*100.0, prog_bar=True)
-        # self.log('my monitor lr', self.trainer.lr_schedulers[0]['scheduler'].optimizer.param_groups[0]['lr'])
         return loss
     
     def validation_step(self, batch, batch_nb):
@@ -97,14 +93,12 @@ class LitPedGraph(pl.LightningModule):
 
         logits = self(x, f, v)
         w = None if self.balance else self.val_weight
-        # loss = F.cross_entropy(logits, y.view(-1).long(), weight=w)
         
         y_onehot = torch.FloatTensor(y.shape[0], 3).to(y.device).zero_()
         y_onehot.scatter_(1, y.long(), 1)
         loss = F.binary_cross_entropy_with_logits(logits, y_onehot, weight=w)
 
         preds = logits.softmax(1).argmax(1) 
-        # acc = accuracy(preds.view(-1).long(), y.view(-1).long())
         acc = balanced_accuracy_score(preds.view(-1).long().cpu(), y.view(-1).long().cpu())
         self.log('val_loss', loss, prog_bar=True)
         self.log('val_acc', acc*100.0, prog_bar=True)
@@ -119,14 +113,12 @@ class LitPedGraph(pl.LightningModule):
 
         logits = self(x, f, v)
         w = None if self.balance else self.te_weight
-        # loss = F.cross_entropy(logits, y.view(-1).long(), weight=w)
         
         y_onehot = torch.FloatTensor(y.shape[0], 3).to(y.device).zero_()
         y_onehot.scatter_(1, y.long(), 1)
         loss = F.binary_cross_entropy_with_logits(logits, y_onehot, weight=w)
 
         preds = logits.softmax(1).argmax(1)  
-        # acc = accuracy(preds.view(-1).long(), y.view(-1).long())
         acc = balanced_accuracy_score(preds.view(-1).long().cpu(), y.view(-1).long().cpu())
         
         self.log('test_loss', loss, prog_bar=True)
@@ -138,9 +130,6 @@ class LitPedGraph(pl.LightningModule):
         lr_scheduler = {'name':'OneCycleLR', 'scheduler': 
         torch.optim.lr_scheduler.OneCycleLR(optm, max_lr=self.lr, div_factor=10.0, total_steps=self.total_steps, verbose=False),
         'interval': 'step', 'frequency': 1,}
-        # 'interval': 'step', 'frequency': 1, 'reduce_on_plateau': False, 'monitor': None, 'strict': True, 'opt_idx': None}
-        # torch.optim.lr_scheduler.StepLR(optm, step_size=75, gamma=0.5),
-                    # 'name': 'StepLR', 'interval': 'step', 'frequency': 1, 'reduce_on_plateau': True, 'monitor': None, 'strict': True, 'opt_idx': None}
         return [optm], [lr_scheduler]
 
 
@@ -161,10 +150,6 @@ def data_loader(args):
         A.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]), 
         ])
     
-    # tr_data = DataSet(path=args.data_path, pie_path=args.pie_path, data_set='train', frame=True, vel=True, balance=args.balance, transforms=transform, seg_map=args.seg, h3d=args.H3D, forecast=args.forecast)
-    # te_data = DataSet(path=args.data_path, pie_path=args.pie_path, data_set='test', frame=True, vel=True, balance=args.balance, transforms=transform, seg_map=args.seg, h3d=args.H3D, t23=args.balance, forecast=args.forecast)
-    # val_data = DataSet(path=args.data_path, pie_path=args.pie_path, data_set='val', frame=True, vel=True, balance=args.balance, transforms=transform, seg_map=args.seg, h3d=args.H3D, forecast=args.forecast)
-
     tr_data = DataSet(path=args.data_path, pie_path=args.pie_path, data_set='train', frame=True, vel=True, balance=False, transforms=transform, seg_map=args.seg, h3d=args.H3D, forecast=args.forecast)
     te_data = DataSet(path=args.data_path, pie_path=args.pie_path, data_set='test', frame=True, vel=True, balance=False, transforms=transform, seg_map=args.seg, h3d=args.H3D, t23=False, forecast=args.forecast)
     val_data = DataSet(path=args.data_path, pie_path=args.pie_path, data_set='val', frame=True, vel=True, balance=False, transforms=transform, seg_map=args.seg, h3d=args.H3D, forecast=args.forecast)
@@ -204,30 +189,25 @@ def main(args):
         gpus=[args.device], max_epochs=args.epochs, 
         auto_lr_find=True, callbacks=[checkpoint_callback, lr_monitor], 
         precision=32,)
-        # accumulate_grad_batches=2, )
-    # gradient_clip_val=0.1, gradient_clip_algorithm='value', 
     
     trainer.tune(mymodel, tr)
-    trainer.fit(mymodel, tr, te)
+    trainer.fit(mymodel, tr, val)
     torch.save(mymodel.model.state_dict(), args.logdir + 'last.pth')
     trainer.test(mymodel, te, ckpt_path='best')
     torch.save(mymodel.model.state_dict(), args.logdir + 'best.pth')
     print('finish')
     
-# mymodel = LitPedGraph(args, 10)   
-# mymodel.load_state_dict(torch.load(args.logdir + 'pie23-epoch=22-val_acc=71.309.ckpt')['state_dict'])
-# torch.save(mymodel.model.state_dict(), args.logdir + 'best.pth')
+
 
 if __name__ == "__main__":
 
     torch.cuda.empty_cache()
     parser = argparse.ArgumentParser("Pedestrian prediction crosing")
-    parser.add_argument('--logdir', type=str, 
-    default="./data/pose_forcasting/pie-23-I/", help="logger directory for tensorboard")
+    parser.add_argument('--logdir', type=str, default="./data/pie-23-IVSFT/", help="logger directory for tensorboard")
     parser.add_argument('--device', type=str, default=0, help="GPU")
     parser.add_argument('--epochs', type=int, default=30, help="Number of eposch to train")
     parser.add_argument('--lr', type=int, default=0.0002, help='learning rate to train')
-    parser.add_argument('--data_path', type=str, default='./data/pose_forcasting/PIE', help='Path to the train and test data')
+    parser.add_argument('--data_path', type=str, default='./data/PIE', help='Path to the train and test data')
     parser.add_argument('--batch_size', type=int, default=256, help="Batch size for training and test")
     parser.add_argument('--num_workers', type=int, default=16, help="Number of workers for the dataloader")
     parser.add_argument('--frames', type=bool, default=False, help='avtivate the use of raw frames')
@@ -236,8 +216,8 @@ if __name__ == "__main__":
     parser.add_argument('--forecast', type=bool, default=False, help='Use the human pose forcasting data')
     parser.add_argument('--time_crop', type=bool, default=False, help='Use random time trimming')
     parser.add_argument('--H3D', type=bool, default=True, help='Use 3D human keypoints')
-    parser.add_argument('--pie_path', type=str, default='/home/rodrigo/data/PIE')
-    parser.add_argument('--balance', type=bool, default=True, help='Balnce or not the data set')
+    parser.add_argument('--pie_path', type=str, default='./PIE')
+    parser.add_argument('--balance', type=bool, default=False, help='Balnce or not the data set')
     parser.add_argument('--seed', type=int, default=42)
     args = parser.parse_args()
     main(args)
