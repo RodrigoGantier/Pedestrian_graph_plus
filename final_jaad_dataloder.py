@@ -230,7 +230,7 @@ def main():
     
     data_path = './data/JAAD'
     jaad_path = './JAAD'
-    pcpa = './data/new2'
+    pcpa = './data/test_results'
 
     transform = A.Compose([
         A.ToTensor(),
