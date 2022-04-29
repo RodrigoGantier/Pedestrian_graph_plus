@@ -185,9 +185,9 @@ class DataSet(data.Dataset):
 
 def main():
     
-    data_path = './data/pose_forcasting/PIE'
-    pie_path = '/home/rodrigo/data/PIE'
-    pcpa = './data/new2'
+    data_path = './data/PIE'
+    pie_path = './PIE'
+    pcpa = './data'
 
     transform = A.Compose([
         A.ToTensor(),
@@ -200,9 +200,6 @@ def main():
 
     for i in iter_:
         x, y, f, v, pcpca = tr_data.__getitem__(i)
-        
-        # y = np.clip(y - 1, 0, 1)
-        # y[y==2] = 0
         cx[i, y.long().item()] = 1
             
     print(f'No Crosing: {cx.sum(0)[0]} Crosing: {cx.sum(0)[1]}, Irrelevant: {cx.sum(0)[2]} ')
