@@ -203,7 +203,7 @@ if __name__ == "__main__":
 
     torch.cuda.empty_cache()
     parser = argparse.ArgumentParser("Pedestrian prediction crosing")
-    parser.add_argument('--logdir', type=str, default="./data/pie-23-IVSFT/", help="logger directory for tensorboard")
+    parser.add_argument('--logdir', type=str, default="./weigths/pie-23-IVSFT/", help="logger directory for tensorboard")
     parser.add_argument('--device', type=str, default=0, help="GPU")
     parser.add_argument('--epochs', type=int, default=30, help="Number of eposch to train")
     parser.add_argument('--lr', type=int, default=0.0002, help='learning rate to train')
