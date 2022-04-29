@@ -69,12 +69,10 @@ class LitPedGraph(pl.LightningModule):
 
         if np.random.randint(10) >= 5 and self.time_crop:
             crop_size = np.random.randint(2, 21)
-            # crop_size = np.random.randint(2, 21)
             x = x[:, :, -crop_size:]
             
         logits = self(x, f, v)
         w = None if self.balance else self.tr_weight
-        # loss = F.cross_entropy(logits, y.view(-1).long(), weight=w)
         
         y_onehot = torch.FloatTensor(y.shape[0], 3).to(y.device).zero_()
         y_onehot.scatter_(1, y.long(), 1)
@@ -82,7 +80,6 @@ class LitPedGraph(pl.LightningModule):
         
         preds = logits.softmax(1).argmax(1)
         acc = accuracy(preds.view(-1).long(), y.view(-1).long())
-        # acc = balanced_accuracy_score(preds.view(-1).long().cpu(), y.view(-1).long().cpu())
         self.log('train_loss', loss, prog_bar=True)
         self.log('train_acc', acc*100.0, prog_bar=True)
         return loss
@@ -96,7 +93,6 @@ class LitPedGraph(pl.LightningModule):
 
         logits = self(x, f, v)
         w = None if self.balance else self.val_weight
-        # loss = F.cross_entropy(logits, y.view(-1).long(), weight=w)
         
         y_onehot = torch.FloatTensor(y.shape[0], 3).to(y.device).zero_()
         y_onehot.scatter_(1, y.long(), 1)
@@ -104,7 +100,6 @@ class LitPedGraph(pl.LightningModule):
 
         preds = logits.softmax(1).argmax(1) 
         acc = accuracy(preds.view(-1).long(), y.view(-1).long())
-        # acc = balanced_accuracy_score(preds.view(-1).long().cpu(), y.view(-1).long().cpu())
         self.log('val_loss', loss, prog_bar=True)
         self.log('val_acc', acc*100.0, prog_bar=True)
         return loss
@@ -118,7 +113,6 @@ class LitPedGraph(pl.LightningModule):
 
         logits = self(x, f, v)
         w = None if self.balance else self.te_weight
-        # loss = F.cross_entropy(logits, y.view(-1).long(), weight=w)
         
         y_onehot = torch.FloatTensor(y.shape[0], 3).to(y.device).zero_()
         y_onehot.scatter_(1, y.long(), 1)
@@ -126,7 +120,6 @@ class LitPedGraph(pl.LightningModule):
 
         preds = logits.softmax(1).argmax(1)
         acc = accuracy(preds.view(-1).long(), y.view(-1).long())
-        # acc = balanced_accuracy_score(preds.view(-1).long().cpu(), y.view(-1).long().cpu())
         
         self.log('test_loss', loss, prog_bar=True)
         self.log('test_acc', acc*100.0, prog_bar=True)
@@ -158,9 +151,6 @@ def data_loader(args):
         A.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]), 
         ])
     
-    # tr_data = DataSet(path=args.data_path, jaad_path=args.jaad_path, data_set='train', frame=True, vel=True, balance=False, transforms=transform, seg_map=args.seg, h3d=args.H3D, forcast=args.forcast)
-    # te_data = DataSet(path=args.data_path, jaad_path=args.jaad_path, data_set='test', frame=True, vel=True, balance=False, bh='all', t23=False, transforms=transform, seg_map=args.seg, h3d=args.H3D, forcast=args.forcast)
-    # val_data = DataSet(path=args.data_path, jaad_path=args.jaad_path, data_set='val', frame=True, vel=True, balance=False, transforms=transform, seg_map=args.seg, h3d=args.H3D, forcast=args.forcast)
     
     tr_data = DataSet(path=args.data_path, jaad_path=args.jaad_path, data_set='train', frame=True, vel=True, balance=False, transforms=transform, seg_map=args.seg, h3d=args.H3D, forcast=args.forcast)
     te_data = DataSet(path=args.data_path, jaad_path=args.jaad_path, data_set='test', frame=True, vel=True, balance=args.balance, bh='all', t23=args.balance, transforms=transform, seg_map=args.seg, h3d=args.H3D, forcast=args.forcast)
@@ -201,27 +191,22 @@ def main(args):
         precision=32,)
     
     trainer.tune(mymodel, tr)
-    trainer.fit(mymodel, tr, te)
+    trainer.fit(mymodel, tr, val)
     torch.save(mymodel.model.state_dict(), args.logdir + 'last.pth')
     trainer.test(mymodel, te, ckpt_path='best')
     torch.save(mymodel.model.state_dict(), args.logdir + 'best.pth')
     print('finish')
     
-# mymodel = LitPedGraph(args, 10)   
-# mymodel.load_state_dict(torch.load(args.logdir + 'jaad23-epoch=05-val_acc=79.908.ckpt')['state_dict'])
-# torch.save(mymodel.model.state_dict(), args.logdir + 'best.pth')
 
 if __name__ == "__main__":
 
     torch.cuda.empty_cache()
     parser = argparse.ArgumentParser("Pedestrian prediction crosing") 
-    parser.add_argument('--logdir', type=str, 
-    default="./data/pose_forcasting/jaad-23-IVSFT_balance/", help="logger directory for tensorboard")
+    parser.add_argument('--logdir', type=str, default="./weigths/jaad-23-IVSFT/", help="logger directory for tensorboard")
     parser.add_argument('--device', type=str, default=0, help="GPU")
     parser.add_argument('--epochs', type=int, default=30, help="Number of eposch to train")
     parser.add_argument('--lr', type=int, default=0.005, help='learning rate to train')
-    parser.add_argument('--data_path', type=str, 
-    default='./data/pose_forcasting/JAAD', help='Path to the train and test data')
+    parser.add_argument('--data_path', type=str, default='./data/JAAD', help='Path to the train and test data')
     parser.add_argument('--batch_size', type=int, default=256, help="Batch size for training and test")
     parser.add_argument('--num_workers', type=int, default=16, help="Number of workers for the dataloader")
     parser.add_argument('--frames', type=bool, default=False, help='avtivate the use of raw frames')
@@ -230,7 +215,7 @@ if __name__ == "__main__":
     parser.add_argument('--forcast', type=bool, default=False, help='Use the human pose forcasting data')
     parser.add_argument('--time_crop', type=bool, default=False)
     parser.add_argument('--H3D', type=bool, default=True, help='Use 3D human keypoints')
-    parser.add_argument('--jaad_path', type=str, default='/home/rodrigo/data/JAAD')
+    parser.add_argument('--jaad_path', type=str, default='./JAAD')
     parser.add_argument('--balance', type=bool, default=True, help='Balnce or not the data set')
     parser.add_argument('--bh', type=str, default='all', help='all or bh, if use all samples or only samples with behaevior labers')
     parser.add_argument('--seed', type=int, default=42)
