@@ -188,7 +188,7 @@ def main(args):
     trainer = pl.Trainer(
         gpus=[args.device], max_epochs=args.epochs, 
         auto_lr_find=True, callbacks=[checkpoint_callback, lr_monitor], 
-        precision=32,)
+        precision=16,)
     
     trainer.tune(mymodel, tr)
     trainer.fit(mymodel, tr, val)
@@ -198,18 +198,17 @@ def main(args):
     print('finish')
     
 
-
 if __name__ == "__main__":
 
     torch.cuda.empty_cache()
     parser = argparse.ArgumentParser("Pedestrian prediction crosing")
-    parser.add_argument('--logdir', type=str, default="./weigths/pie-23-IVSFT/", help="logger directory for tensorboard")
+    parser.add_argument('--logdir', type=str, default="./data/pie-23-IVSFT/", help="logger directory for tensorboard")
     parser.add_argument('--device', type=str, default=0, help="GPU")
     parser.add_argument('--epochs', type=int, default=30, help="Number of eposch to train")
     parser.add_argument('--lr', type=int, default=0.0002, help='learning rate to train')
     parser.add_argument('--data_path', type=str, default='./data/PIE', help='Path to the train and test data')
-    parser.add_argument('--batch_size', type=int, default=256, help="Batch size for training and test")
-    parser.add_argument('--num_workers', type=int, default=16, help="Number of workers for the dataloader")
+    parser.add_argument('--batch_size', type=int, default=2, help="Batch size for training and test")
+    parser.add_argument('--num_workers', type=int, default=0, help="Number of workers for the dataloader")
     parser.add_argument('--frames', type=bool, default=False, help='avtivate the use of raw frames')
     parser.add_argument('--velocity', type=bool, default=False, help='activate the use of the odb and gps velocity')
     parser.add_argument('--seg', type=bool, default=False, help='Use the segmentation map')
@@ -217,7 +216,7 @@ if __name__ == "__main__":
     parser.add_argument('--time_crop', type=bool, default=False, help='Use random time trimming')
     parser.add_argument('--H3D', type=bool, default=True, help='Use 3D human keypoints')
     parser.add_argument('--pie_path', type=str, default='./PIE')
-    parser.add_argument('--balance', type=bool, default=False, help='Balnce or not the data set')
+    parser.add_argument('--balance', type=bool, default=True, help='Balnce or not the data set')
     parser.add_argument('--seed', type=int, default=42)
     args = parser.parse_args()
     main(args)

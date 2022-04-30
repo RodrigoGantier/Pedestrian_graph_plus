@@ -11,7 +11,6 @@ from pytorch_lightning.callbacks import LearningRateMonitor
 
 from jaad_dataloader23 import DataSet
 from models.ped_graph23 import pedMondel
-from pytorch_lamb.pytorch_lamb.lamb import Lamb
 
 from pathlib import Path
 import argparse
@@ -46,14 +45,16 @@ class LitPedGraph(pl.LightningModule):
         self.velocity = args.velocity
         self.time_crop = args.time_crop
 
-        tr_nsamples = [1025, 4778, 17582]
-        self.tr_weight = torch.from_numpy(np.min(tr_nsamples) / tr_nsamples).float().cuda()
-        te_nsamples = [1871, 3204, 13037]
-        self.te_weight = torch.from_numpy(np.min(te_nsamples) / te_nsamples).float().cuda()
-        val_nsamples = [176, 454, 2772]
-        self.val_weight = torch.from_numpy(np.min(val_nsamples) / val_nsamples).float().cuda()
-
         self.model = pedMondel(args.frames, args.velocity, seg=args.seg, h3d=args.H3D, n_clss=3)
+
+        device = self.model.linear.weight.device
+
+        tr_nsamples = [1025, 4778, 17582]
+        self.tr_weight = torch.from_numpy(np.min(tr_nsamples) / tr_nsamples).float().to(device)
+        te_nsamples = [1871, 3204, 13037]
+        self.te_weight = torch.from_numpy(np.min(te_nsamples) / te_nsamples).float().to(device)
+        val_nsamples = [176, 454, 2772]
+        self.val_weight = torch.from_numpy(np.min(val_nsamples) / val_nsamples).float().to(device)
         
     def forward(self, kp, f, v):
     
@@ -113,6 +114,7 @@ class LitPedGraph(pl.LightningModule):
 
         logits = self(x, f, v)
         w = None if self.balance else self.te_weight
+        # loss = F.cross_entropy(logits, y.view(-1).long(), weight=w)
         
         y_onehot = torch.FloatTensor(y.shape[0], 3).to(y.device).zero_()
         y_onehot.scatter_(1, y.long(), 1)
@@ -127,7 +129,6 @@ class LitPedGraph(pl.LightningModule):
 
     def configure_optimizers(self):
         optm = torch.optim.AdamW(self.parameters(), lr=self.lr, weight_decay=1e-3)
-        # optm = Lamb(self.parameters(), lr=self.lr, weight_decay=1e-3)
         lr_scheduler = {'name':'OneCycleLR', 'scheduler': 
         torch.optim.lr_scheduler.OneCycleLR(optm, max_lr=self.lr, div_factor=10.0, final_div_factor=1e4, total_steps=self.total_steps, verbose=False),
         'interval': 'step', 'frequency': 1,}
@@ -150,7 +151,6 @@ def data_loader(args):
         A.ToTensor(),
         A.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]), 
         ])
-    
     
     tr_data = DataSet(path=args.data_path, jaad_path=args.jaad_path, data_set='train', frame=True, vel=True, balance=False, transforms=transform, seg_map=args.seg, h3d=args.H3D, forcast=args.forcast)
     te_data = DataSet(path=args.data_path, jaad_path=args.jaad_path, data_set='test', frame=True, vel=True, balance=args.balance, bh='all', t23=args.balance, transforms=transform, seg_map=args.seg, h3d=args.H3D, forcast=args.forcast)
@@ -186,9 +186,11 @@ def main(args):
         filename='jaad23-{epoch:02d}-{val_acc:.3f}', mode='max', save_weights_only=True)
     lr_monitor = LearningRateMonitor(logging_interval='step')
     trainer = pl.Trainer(
-        gpus=[args.device], max_epochs=args.epochs, 
+        gpus=[args.device], 
+        # gpus=[], 
+        max_epochs=args.epochs, 
         auto_lr_find=True, callbacks=[checkpoint_callback, lr_monitor], 
-        precision=32,)
+        precision=16,)
     
     trainer.tune(mymodel, tr)
     trainer.fit(mymodel, tr, val)
@@ -198,17 +200,18 @@ def main(args):
     print('finish')
     
 
+
 if __name__ == "__main__":
 
     torch.cuda.empty_cache()
     parser = argparse.ArgumentParser("Pedestrian prediction crosing") 
-    parser.add_argument('--logdir', type=str, default="./weigths/jaad-23-IVSFT/", help="logger directory for tensorboard")
+    parser.add_argument('--logdir', type=str, default="./data/jaad-23-IVSFT/", help="logger directory for tensorboard")
     parser.add_argument('--device', type=str, default=0, help="GPU")
     parser.add_argument('--epochs', type=int, default=30, help="Number of eposch to train")
     parser.add_argument('--lr', type=int, default=0.005, help='learning rate to train')
     parser.add_argument('--data_path', type=str, default='./data/JAAD', help='Path to the train and test data')
-    parser.add_argument('--batch_size', type=int, default=256, help="Batch size for training and test")
-    parser.add_argument('--num_workers', type=int, default=16, help="Number of workers for the dataloader")
+    parser.add_argument('--batch_size', type=int, default=2, help="Batch size for training and test")
+    parser.add_argument('--num_workers', type=int, default=0, help="Number of workers for the dataloader")
     parser.add_argument('--frames', type=bool, default=False, help='avtivate the use of raw frames')
     parser.add_argument('--velocity', type=bool, default=False, help='activate the use of the odb and gps velocity')
     parser.add_argument('--seg', type=bool, default=False, help='Use the segmentation map')
