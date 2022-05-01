@@ -33,10 +33,10 @@ our code was tested on the jetson nano 4Gb
 
 ## Preliminary
 - Download the linked material below
-Sample dataset for training and testing:
-proprocess data ([data](https://pan.baidu.com/s/1GiBAR2voRvk15nI2wsKnUQ?pwd=1234)).
-PIE data ([PIE](https://pan.baidu.com/s/1zKmftUUa96QXMnmOdc24Og?pwd=1234)).
-JAAD data ([JAAD](https://pan.baidu.com/s/1EgOjuYXQuaSqr8m0jDdkUA?pwd=1234 )).
+Sample dataset for training and testing: <br>
+pre-processed data ([data](https://pan.baidu.com/s/1GiBAR2voRvk15nI2wsKnUQ?pwd=1234)).<br>
+PIE data ([PIE](https://pan.baidu.com/s/1zKmftUUa96QXMnmOdc24Og?pwd=1234)).<br>
+JAAD data ([JAAD](https://pan.baidu.com/s/1EgOjuYXQuaSqr8m0jDdkUA?pwd=1234 )).<br>
 
 ## Inference
 test JAAD
