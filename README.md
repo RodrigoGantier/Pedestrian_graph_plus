@@ -1,6 +1,8 @@
 # Pedestrian_graph_plus
-This is a code repo for **[Pedestrian Graph +: A Fast Pedestrian Crossing Prediction Model based on Graph Convolutional Networks]
-[![Pedestrian Graph + T-ITS 2022](https://github.com/RodrigoGantier/Pedestrian_graph_plus/blob/main/weigths/peaton.png)](https://www.bilibili.com/video/BV1JB4y117Ho/)<br>
+This is a code repo for **[Pedestrian Graph +: A Fast Pedestrian Crossing Prediction Model based on Graph Convolutional Networks]()**<br>
+
+
+[![Pedestrian Graph + T-ITS 2022](https://github.com/RodrigoGantier/Pedestrian_graph_plus/blob/main/docker/peaton.png)](https://www.bilibili.com/video/BV1JB4y117Ho/)<br>
 
 If you use any of this code, please cite the following publications:
 
@@ -15,9 +17,9 @@ If you use any of this code, please cite the following publications:
 }
 ```
 ## Set-up
-install:
-pytorch 1.8.0 or above 
-pytorch lightning 1.5.10 or above 
+install:<br>
+pytorch 1.8.0 or above <br>
+pytorch lightning 1.5.10 or above <br>
 
 Also you can use docker
 ```bash
@@ -43,6 +45,13 @@ test JAAD
 ```bash
 python3 final_jaad_test.py --ckpt ./weigths/jaad-23-IVSFT/best.pth
 ```
+The following inference is made on a 4Gb jetson nano: <br>
+
+
+[![Pedestrian Graph + T-ITS 2022](https://github.com/RodrigoGantier/Pedestrian_graph_plus/blob/main/docker/jetson_nano.gif)]<br>
+
+This inference shows that **Pedestrian Graph +** is able to run on low-resource hardware, being efficient while maintaining high accuracy.
+
 test JAAD with 2D human keypoints
 ```bash
 python3 final_jaad_test.py --ckpt ./weigths/jaad-23-IVSFT-h2d/best.pth
