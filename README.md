@@ -48,9 +48,13 @@ python3 final_jaad_test.py --ckpt ./weigths/jaad-23-IVSFT/best.pth
 The following inference is made on a 4Gb jetson nano: <br>
 
 
-[![Pedestrian Graph + T-ITS 2022](https://github.com/RodrigoGantier/Pedestrian_graph_plus/blob/main/docker/jetson_nano.gif)]<br>
+![Pedestrian Graph +](https://github.com/RodrigoGantier/Pedestrian_graph_plus/blob/main/docker/jetson_nano.gif)<br>
 
-This inference shows that **Pedestrian Graph +** is able to run on low-resource hardware, being efficient while maintaining high accuracy.
+This inference shows that **Pedestrian Graph +** is able to run on low-resource hardware, being efficient while maintaining high accuracy.<br>
+
+![Pedestrian Graph +](https://github.com/RodrigoGantier/Pedestrian_graph_plus/blob/main/docker/gtx1060.gif)<br>
+
+Inference time on jetson nano is 24ms, on the GTX 1060 (laptop) the inference time is 3 ms.<br>
 
 test JAAD with 2D human keypoints
 ```bash
