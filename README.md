@@ -7,7 +7,7 @@ wath it on bilibili <br>
 
 Or on Youtube <br>
 
-[![Pedestrian Graph + T-ITS 2022](https://github.com/RodrigoGantier/Pedestrian_graph_plus/blob/main/docker/new_3d_ped.png)](https://www.youtube.com/watch?v=BZxf53VdyjU)<br>
+[![Pedestrian Graph + T-ITS 2022](https://github.com/RodrigoGantier/Pedestrian_graph_plus/blob/main/docker/new_3d_ped.jpg)](https://www.youtube.com/watch?v=BZxf53VdyjU)<br>
 
 If you use any of this code, please cite the following publications:
 
