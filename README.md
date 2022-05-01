@@ -40,6 +40,8 @@ pre-processed data ([data](https://pan.baidu.com/s/1GiBAR2voRvk15nI2wsKnUQ?pwd=1
 PIE data ([PIE](https://pan.baidu.com/s/1zKmftUUa96QXMnmOdc24Og?pwd=1234)).<br>
 JAAD data ([JAAD](https://pan.baidu.com/s/1EgOjuYXQuaSqr8m0jDdkUA?pwd=1234 )).<br>
 
+All three folders must be inside the Pedestrian_graph_plus folder <br>
+
 ## Inference
 test JAAD
 ```bash
