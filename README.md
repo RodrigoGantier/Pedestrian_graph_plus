@@ -20,9 +20,16 @@ pytorch 1.8.o or above
 pytorch lightning 1.5.10 or above 
 
 Also you can use docker
+```bash
 sudo docker pull nvcr.io/nvidia/l4t-base:r32.4.3
-our code was tested on the jetson nano 4Gb
+```
+
+```bash
 sudo run sh ./run_docker.sh
+```
+
+our code was tested on the jetson nano 4Gb
+
 
 ## Preliminary
 - Download the linked material below
