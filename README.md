@@ -1,6 +1,6 @@
 # Pedestrian_graph_plus
 This is a code repo for **[Pedestrian Graph +: A Fast Pedestrian Crossing Prediction Model based on Graph Convolutional Networks]
-[![T-ITS 2022](https://github.com/RodrigoGantier/Pedestrian_graph_plus/img.npg)](https://www.bilibili.com/video/BV1JB4y117Ho/)<br>
+[![Pedestrian Graph + T-ITS 2022](https://github.com/RodrigoGantier/Pedestrian_graph_plus)](https://www.bilibili.com/video/BV1JB4y117Ho/)<br>
 
 If you use any of this code, please cite the following publications:
 
