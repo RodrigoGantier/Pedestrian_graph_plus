@@ -1,6 +1,6 @@
 # Pedestrian_graph_plus
 This is a code repo for **[Pedestrian Graph +: A Fast Pedestrian Crossing Prediction Model based on Graph Convolutional Networks]
-(xx.pdf)** ([T-ITS 2022](https://www.bilibili.com/video/BV1JB4y117Ho/))<br>
+([T-ITS 2022](https://www.bilibili.com/video/BV1JB4y117Ho/)<br>
 
 If you use any of this code, please cite the following publications:
 
@@ -26,9 +26,10 @@ sudo run sh ./run_docker.sh
 
 ## Preliminary
 - Download the linked material below
-* Sample dataset for training and testing ([data](https://pan.baidu.com/s/1GiBAR2voRvk15nI2wsKnUQ?pwd=1234)).
-* Sample dataset for training and testing ([PIE](https://pan.baidu.com/s/1zKmftUUa96QXMnmOdc24Og?pwd=1234)).
-* Sample dataset for training and testing ([PIE](https://pan.baidu.com/s/1EgOjuYXQuaSqr8m0jDdkUA?pwd=1234 )).
+* Sample dataset for training and testing 
+proprocess data ([data](https://pan.baidu.com/s/1GiBAR2voRvk15nI2wsKnUQ?pwd=1234)).
+PIE data ([PIE](https://pan.baidu.com/s/1zKmftUUa96QXMnmOdc24Og?pwd=1234)).
+JAAD data ([JAAD](https://pan.baidu.com/s/1EgOjuYXQuaSqr8m0jDdkUA?pwd=1234 )).
 
 ## Inference
 test JAAD
