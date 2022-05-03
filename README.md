@@ -41,9 +41,16 @@ our code was tested on the jetson nano 4Gb
 ## Preliminary
 - Download the linked material below
 Sample dataset for training and testing: <br>
-pre-processed data ([data](https://pan.baidu.com/s/1GiBAR2voRvk15nI2wsKnUQ?pwd=1234)).<br>
-PIE data ([PIE](https://pan.baidu.com/s/1zKmftUUa96QXMnmOdc24Og?pwd=1234)).<br>
-JAAD data ([JAAD](https://pan.baidu.com/s/1EgOjuYXQuaSqr8m0jDdkUA?pwd=1234 )).<br>
+
+
+pre-processed data baidu ([data](https://pan.baidu.com/s/1GiBAR2voRvk15nI2wsKnUQ?pwd=1234)).<br>
+pre-processed data google dive ([data](https://drive.google.com/drive/folders/1I9TUDa7FpTrgSrf7_pivlB1O_pJ3U3u9?usp=sharing)).<br>
+
+PIE data baidu ([PIE](https://pan.baidu.com/s/1zKmftUUa96QXMnmOdc24Og?pwd=1234)).<br>
+PIE data google dive ([PIE](https://drive.google.com/drive/folders/1PNhyuiAhutkSg8xnc2uXvulm9P_b9De2?usp=sharing)).<br>
+
+JAAD data baidu ([JAAD](https://pan.baidu.com/s/1EgOjuYXQuaSqr8m0jDdkUA?pwd=1234)).<br>
+JAAD data google dive ([JAAD](https://drive.google.com/drive/folders/1HWAimRzwlvNBpUucULBb8BfCGht8R4dX?usp=sharing)).<br>
 
 All three folders must be inside the Pedestrian_graph_plus folder <br>
 
