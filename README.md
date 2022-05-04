@@ -3,11 +3,11 @@ This is a code repo for **[Pedestrian Graph +: A Fast Pedestrian Crossing Predic
 
 wath it on bilibili <br>
 
-[![Pedestrian Graph + T-ITS 2022](https://github.com/RodrigoGantier/Pedestrian_graph_plus/blob/main/docker/peaton.png)](https://www.bilibili.com/video/BV1JB4y117Ho/)<br>
+[![peaton](https://github.com/RodrigoGantier/Pedestrian_graph_plus/blob/main/docker/peaton.png)](https://www.bilibili.com/video/BV1JB4y117Ho/)<br>
 
 Or on Youtube <br>
 
-[![Pedestrian Graph + T-ITS 2022](https://github.com/RodrigoGantier/Pedestrian_graph_plus/blob/main/docker/new_3d_ped.jpg)](https://www.youtube.com/watch?v=BZxf53VdyjU)<br>
+[![3d_ped](https://github.com/RodrigoGantier/Pedestrian_graph_plus/blob/main/docker/new_3d_ped.jpg)](https://www.youtube.com/watch?v=BZxf53VdyjU)<br>
 
 If you use any of this code, please cite the following publications:
 
@@ -83,6 +83,12 @@ To train
 ```bash
 python3 pl_jaad_muster23_forecast.py --logdir ./weigths/jaad-23-IVSFT/
 ```
+
+## Qualitative Results
+
+![3D_estimation](https://github.com/RodrigoGantier/Pedestrian_graph_plus/blob/main/docker/3D_estimation.png)<br>
+
+![alpha_ped](https://github.com/RodrigoGantier/Pedestrian_graph_plus/blob/main/docker/alpha_ped.png)<br>
 
 ## License
 
