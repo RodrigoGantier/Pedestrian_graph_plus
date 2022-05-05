@@ -1,7 +1,14 @@
 # Pedestrian_graph_plus
 This is a code repo for **[Pedestrian Graph +: A Fast Pedestrian Crossing Prediction Model based on Graph Convolutional Networks]()**<br>
 
-wath it on bilibili <br>
+
+## Google colab
+- Pedestrian Graph + Available via a [colab notebook](https://github.com/RodrigoGantier/Pedestrian_graph_plus/blob/main/Pedestrian_graph_plus.ipynb) ![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg).
+
+
+## wath Pedestrian Graph + on:
+
+bilibili <br>
 
 [![peaton](https://github.com/RodrigoGantier/Pedestrian_graph_plus/blob/main/docker/peaton.png)](https://www.bilibili.com/video/BV1JB4y117Ho/)<br>
 
@@ -9,7 +16,9 @@ Or on Youtube <br>
 
 [![3d_ped](https://github.com/RodrigoGantier/Pedestrian_graph_plus/blob/main/docker/new_3d_ped.jpg)](https://www.youtube.com/watch?v=BZxf53VdyjU)<br>
 
-If you use any of this code, please cite the following publications:
+
+## BibTeX
+If you use any of this code, please cite the following publications:<br>
 
 ```bibtex
 @inproceedings{cadena2019pedestrian,
@@ -69,7 +78,7 @@ This inference shows that **Pedestrian Graph +** is able to run on low-resource 
 ![Pedestrian Graph +](https://github.com/RodrigoGantier/Pedestrian_graph_plus/blob/main/docker/gtx1060.gif)<br>
 
 Inference time on jetson nano is 24ms, on the GTX 1060 (laptop) the inference time is 3 ms.<br>
-
+ 
 test JAAD with 2D human keypoints
 ```bash
 python3 final_jaad_test.py --ckpt ./weigths/jaad-23-IVSFT-h2d/best.pth
@@ -83,6 +92,7 @@ To train
 ```bash
 python3 pl_jaad_muster23_forecast.py --logdir ./weigths/jaad-23-IVSFT/
 ```
+
 
 ## Qualitative Results
 
