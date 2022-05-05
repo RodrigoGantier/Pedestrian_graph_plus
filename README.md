@@ -3,7 +3,7 @@ This is a code repo for **[Pedestrian Graph +: A Fast Pedestrian Crossing Predic
 
 
 ## Google colab
-- Pedestrian Graph + Available via a [colab notebook](https://github.com/RodrigoGantier/Pedestrian_graph_plus/blob/main/Pedestrian_graph_plus.ipynb) ![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg).
+- Pedestrian Graph + Available via a [colab notebook](https://colab.research.google.com/github/RodrigoGantier/Pedestrian_graph_plus/blob/main/Pedestrian_graph_plus.ipynb) ![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg).
 
 
 ## wath Pedestrian Graph + on:
