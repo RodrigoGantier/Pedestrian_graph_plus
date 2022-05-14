@@ -1,5 +1,5 @@
 # Pedestrian_graph_plus
-This is a code repo for **[Pedestrian Graph +: A Fast Pedestrian Crossing Prediction Model based on Graph Convolutional Networks]()**<br>
+This is a code repo for **[Pedestrian Graph +: A Fast Pedestrian Crossing Prediction Model based on Graph Convolutional Networks](https://www.researchgate.net/publication/360582393_Pedestrian_Graph_A_Fast_Pedestrian_Crossing_Prediction_Model_Based_on_Graph_Convolutional_Networks)**<br>
 
 
 ## Google colab
