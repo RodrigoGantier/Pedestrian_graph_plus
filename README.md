@@ -21,6 +21,18 @@ Or on Youtube <br>
 If you use any of this code, please cite the following publications:<br>
 
 ```bibtex
+@ARTICLE{9774877,
+  author={Cadena, Pablo Rodrigo Gantier and Qian, Yeqiang and Wang, Chunxiang and Yang, Ming},
+  journal={IEEE Transactions on Intelligent Transportation Systems}, 
+  title={Pedestrian Graph +: A Fast Pedestrian Crossing Prediction Model Based on Graph Convolutional Networks}, 
+  year={2022},
+  volume={},
+  number={},
+  pages={1-12},
+  doi={10.1109/TITS.2022.3173537}}
+``` 
+  
+```bibtex
 @inproceedings{cadena2019pedestrian,
   title={Pedestrian graph: Pedestrian crossing prediction based on 2d pose estimation and graph convolutional networks},
   author={Cadena, Pablo Rodrigo Gantier and Yang, Ming and Qian, Yeqiang and Wang, Chunxiang},
